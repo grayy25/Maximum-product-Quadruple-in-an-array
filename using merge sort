@@ -1,0 +1,108 @@
+import java.util.*;
+
+public class Source {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n  = sc.nextInt();
+        int arr[] = new int[n];
+
+        for(int i = 0; i<n;i++){
+            arr[i] = sc.nextInt();
+        }
+
+        int max =  maxProdQuad(n,arr);
+        if(max == -1)
+            System.out.println("No Maximum Product Quadruple");
+        else
+            System.out.println(max);
+
+    }
+    static int maxProdQuad(int n, int[] arr){
+        // sorting the array with the help of function call:
+        if(n>=4)
+        {
+            sortArr(arr, 0, n-1);
+        int x=1, y=1, z=1;
+        //storing the Product of first four elements in x: 
+        for(int i=0; i<3; i++){
+            x*=arr[i];
+            //System.out.println("x:"+x);
+        }
+        
+        // storing the product of last 4 elements in y:
+            for(int i=n-1; i>=n-4; i--){
+            y*=arr[i];
+            //System.out.println("y: "+y);
+        }
+        
+        // prod of first 2 and last 2 elements:
+        z=arr[0]*arr[1]*arr[n-1]*arr[n-2];
+        //System.out.println("z: "+z);
+        
+        if(x>y&& x>z)
+        return x;
+        
+        else if(y>z && y>x)
+        return y;
+        
+        else if(z>x && z>y)
+        return z;
+        
+        else
+        return -1;
+        }
+        else return -1;
+        
+        
+        
+    }
+    //using merge sort to sort the array:
+    public static void sortArr(int[] arr, int low, int high){
+        if(low<high){
+            int mid=(low+high)/2;
+            sortArr(arr, mid+1, high);
+            sortArr(arr, low, mid);
+            
+            merge(arr, low, mid, high );
+        }
+    }
+    public static void merge(int[] arr, int l, int m, int r ){
+        int n1=m-l+1;
+        int n2=r-m;
+        
+        int[] left=new int[n1];
+        int[] right=new int[n2];
+        
+        for(int i=0; i<n1; i++)
+        {
+            left[i]=arr[l+i];
+        }
+        for(int j=0; j<n2; j++)
+        {
+            right[j]=arr[m+j+1];
+        }
+        int i=0, j=0, k=l;
+        while(i<n1 && j<n2){
+            if(left[i]<=right[j]){
+                arr[k]=left[i];
+                i++;
+            }
+            else{
+                arr[k]=right[j];
+                j++;
+            }
+            k++;
+        }
+        while(i<n1){
+            arr[k]=left[i];
+            i++;
+            k++;
+        }
+        while(j<n2){
+            arr[k]=right[j];
+            j++;
+            k++;
+        }
+    }
+}
+    
